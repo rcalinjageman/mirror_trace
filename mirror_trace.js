@@ -203,7 +203,7 @@ function do_mirror() {
 				ctx_mirror.lineTo(mouse.x, mouse.y);
 			}
 			ctx_mirror.stroke();				
-			document.getElementById("status").innerHTML = "Score = " + Math.round(score *100) +"%"; 
+			document.getElementById("status").innerHTML = "Score = " + Math.round(score *100) +"%" + coord; 
 		} else {
 		    if(!finished) {
 			currentRefresh = new Date();
@@ -233,7 +233,7 @@ function do_mirror() {
 				document.getElementById("status").innerHTML = "Click the green circle to begin this trial"; 
 			}
 			} else {
-				document.getElementById("status").innerHTML = "Finsihed with score = " + Math.round(score *100) + "%<BR> Click next to continue."; 
+				document.getElementById("status").innerHTML = "Finished with score = " + Math.round(score *100) + "%<BR> Click next to continue."; 
 			}
 		}
 		 
