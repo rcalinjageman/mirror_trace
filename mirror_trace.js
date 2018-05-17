@@ -1,3 +1,18 @@
+// This set of scripts implements a mirror trace task suitable for online use with Qualtrics
+// It was written by Bob Calin-Jageman
+// I was learning javascript as a I went; the code is stitched together from various online sources; sorry it is not very elegant
+// You can see a demo of this script in action at: https://dom.az1.qualtrics.com/jfe/form/SV_eeSj6E3YyI8nxdP
+
+// this object contains the materials for the task - 
+//   the mirror property say if that trial should be mirrored
+//   the file_names property give the file names for the images to use for each trial.
+          // NOTE: Currently this points to images hosted on the github site for this project.  You can change this but be sure:
+		  // That the images are hosted on an https server with a flag set to allow cross-domain loading of images
+//    xstarts, ystarts are the coordinates for the green dot that sets the trial start
+//    xends, yends are the coordinates for where the trial ends
+// currently this displays 3 difficult trials (h1, h2, and h3) and 3 regular trials (4, 5, 6)
+// the images posted on github all have the same total line length and 15 segments 
+
 var materials = {
 		'mirror' : [false, true, true, true, true, true, true],
 		'file_names' : ["https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/sample.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trialh1.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trialh2.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trialh3.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trial1.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trial2.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trial3.png"],
@@ -13,8 +28,11 @@ var materials = {
 //		'yends' :    [260,	28,		267,	250,		267,	15,		175]
 
 	//for saving screenshots
+	// the script can save screenshots of completed trials.  
+	// to use this feature, set saveTrace to true and set saveScript to your server.  Your server will need a php script for accepting the files.
+	// the php script is posted on github
 	var saveScript = "https://calin-jageman.net/mirror_trace/save.php"
-	var saveTrace = true;
+	var saveTrace = false;
 	
 
 	//image dimensions
@@ -107,7 +125,7 @@ function do_mirror() {
         var mouseold = {x: 0, y: 0};	
 
 	/* Drawing on Paint App */
-	ctx_mirror.lineWidth = 2;
+	ctx_mirror.lineWidth = 1.2;
 	ctx_mirror.lineJoin = 'round';
 	ctx_mirror.lineCap = 'round';
 	ctx_mirror.strokeStyle = 'blue';
