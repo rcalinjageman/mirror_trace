@@ -2,6 +2,8 @@
 // It was written by Bob Calin-Jageman
 // I was learning javascript as a I went; the code is stitched together from various online sources; sorry it is not very elegant
 // You can see a demo of this script in action at: https://dom.az1.qualtrics.com/jfe/form/SV_eeSj6E3YyI8nxdP
+// And you can see how pre-screening to ensure browser compatibility works here: https://dom.az1.qualtrics.com/jfe/form/SV_0lEq6SBvvT5LAj3
+
 
 // this object contains the materials for the task - 
 //   the mirror property say if that trial should be mirrored
