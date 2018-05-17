@@ -1,7 +1,7 @@
 // This set of scripts implements a mirror trace task suitable for online use with Qualtrics
 // It was written by Bob Calin-Jageman
 // I was learning javascript as a I went; the code is stitched together from various online sources; sorry it is not very elegant
-
+// You can see a demo of this script in action at: https://dom.az1.qualtrics.com/jfe/form/SV_eeSj6E3YyI8nxdP
 
 // this object contains the materials for the task - 
 //   the mirror property say if that trial should be mirrored
@@ -13,14 +13,20 @@
 // currently this displays 3 difficult trials (h1, h2, and h3) and 3 regular trials (4, 5, 6)
 // the images posted on github all have the same total line length and 15 segments 
 var materials = {
-               'mirror' : [false, true, true, true, true, true, true],
-               'file_names' : ["https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/sample.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trialh1.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trialh2.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trialh3.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trial4.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trial5.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trial6.png"],
-               'xstarts' : [47,       27,            40,            280,           27, 40, 280],
-               'ystarts' : [256,      275,    45,            276,           275, 45, 276],
-               'xends' :   [344,      370,    368,    33,                    370, 368, 33],
-               'yends' :    [260,     28,            267,    250,           28,267,250]
-        }
-        
+		'mirror' : [false, true, true, true, true, true, true],
+		'file_names' : ["https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/sample.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trialh1.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trialh2.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trialh3.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trial1.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trial2.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trialh3.png"],
+		'xstarts' : [47,	27,		40,		280,	27, 	40, 	280],
+		'ystarts' : [256,	275,	45,		276,	275, 	45, 	276],
+		'xends' :   [344,	370,	368,	33,		370, 	368, 	33],
+		'yends' :   [260,	28,		267,	250,	28,		267,	250]
+	}
+	
+	//	'xstarts' : [47,	27,		40,		280,		40,		383,	352],
+//		'ystarts' : [256,	275,	45,		276,		45,		265,	28],
+//		'xends' :   [344,	370,	368,	33,			368,	28,		35],
+//		'yends' :    [260,	28,		267,	250,		267,	15,		175]
+
+
       
 // there are some key settings below you will want to set for your usage
 
