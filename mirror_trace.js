@@ -30,9 +30,43 @@ var materials = {
       
 // there are some key settings below you will want to set for your usage
 
+	//for saving screenshots
+	// the script can save screenshots of completed trials.  
+	// to use this feature, set saveTrace to true and set saveScript to your server.  Your server will need a php script for accepting the files.
+	// the php script is posted on github
+	var saveScript = "https://calin-jageman.net/mirror_trace/save.php"
+	var saveTrace = false;
+	
+
+	//image dimensions
+	var mywidth = 400;
+	var myheight = 300;
+
+	var score = 0;
+	var timeDiff = 0;
+	var trialnumber = 0;
+	var MID = 0;
+	var drawing = false;
+	var finished = false;
+	var timeFinished = 0;
+	var canvas;
+	var ctx;
+	var canvas_mirror;
+	var ctx_mirror;
+	var crossings = 0;
+	var distance_total = 0;
+	var distance_current = 0;
+	var distance_inline = 0;
+	var distance_offline = 0;
+	var startTime = 0;
+	var endTime = 0;
+	var lastRefresh = 0;
+	var currentRefresh = 0;
+	
+
+
 function do_mirror() {	
 	//load materials
-	// trial number will be set within qualtrics when this script is called
 	var imagePath = materials.file_names[trialnumber];	
 	mirror = materials.mirror[trialnumber];
 	var xstart = materials.xstarts[trialnumber];
@@ -42,38 +76,29 @@ function do_mirror() {
 	var yend = materials.yends[trialnumber];
 	var endRadius = 7;
 
-	//for saving screenshots
-	// the script can save screenshots of completed trials.  
-	// to use this feature, set saveTrace to true and set saveScript to your server.  Your server will need a php script for accepting the files.
-	// the php script is posted on github
-	var saveScript = "http://calin-jageman.net/mirror_trace/save.php"
-	var saveTrace = false;
-	
-    //image dimensions
-	var mywidth = 400;
-	var myheight = 300;
 	
 	//states to track
-	var drawing = false;
-	var finished = false;
-	var score = 0;
+	drawing = false;
+	finished = false;
+	score = 0;
+	timeDiff = 0;
+	timeFinished = 0;
 	var inline = false;
-	var crossings = 0;
-	var distance_total = 0;
-	var distance_current = 0;
-	var distance_inline = 0;
-	var distance_offline = 0;
-	var startTime = 0;
-	var endTime = 0;
-	var timeDiff = 0;
-	var lastRefresh = 0;
-	var currentRefresh = 0;
+	crossings = 0;
+	distance_total = 0;
+	distance_current = 0;
+	distance_inline = 0;
+	distance_offline = 0;
+	startTime = 0;
+	endTime = 0;
+	lastRefresh = 0;
+	currentRefresh = 0;
 	
 	//drawing contexts for cursor area and mirrored area
-	var canvas = document.querySelector('#paint');
-	var ctx = canvas.getContext('2d');
-	var canvas_mirror = document.querySelector('#mirror');
-	var ctx_mirror = canvas_mirror.getContext('2d');
+	canvas = document.querySelector('#paint');
+	ctx = canvas.getContext('2d');
+	canvas_mirror = document.querySelector('#mirror');
+	ctx_mirror = canvas_mirror.getContext('2d');
 	
 	//load the image to trace
 	var imageObj = new Image();
@@ -100,10 +125,10 @@ function do_mirror() {
 
 	//defines data structure for mouse movement
 	var mouse = {x: 0, y: 0};	
-    var mouseold = {x: 0, y: 0};	
+        var mouseold = {x: 0, y: 0};	
 
 	/* Drawing on Paint App */
-	ctx_mirror.lineWidth = 1.2;
+	ctx_mirror.lineWidth = 2;
 	ctx_mirror.lineJoin = 'round';
 	ctx_mirror.lineCap = 'round';
 	ctx_mirror.strokeStyle = 'blue';
@@ -115,9 +140,16 @@ function do_mirror() {
 		mouse.y = e.pageY - this.offsetTop;
 		
 		//update status
-		var pos = findPos(this);
-         var x = e.pageX - pos.x;
-         var y = e.pageY - pos.y;
+		var pos = betterPos(canvas, e);
+		//var pos = findPos(this);
+                //var x = e.pageX - pos.x;
+                //var y = e.pageY - pos.y;
+		var x = pos.x;
+		var y = pos.y;
+		mouse.x = x;
+		mouse.y = y;
+		
+		//document.getElementById("status").innerHTML = "x = " + x + " y = " + y + " mousex = " + mouse.x + " mousey = " + mouse.y;
 		 
 		 if (mirror) {
 			var coord = "x=" +  (mywidth-x) + ", y=" + (myheight-y);
@@ -126,11 +158,11 @@ function do_mirror() {
 		}
 
 		if (mirror) {
-         var p = ctx_mirror.getImageData(mywidth-mouse.x, myheight-mouse.y, 1, 1).data; 
+                      var p = ctx_mirror.getImageData(mywidth-mouse.x, myheight-mouse.y, 1, 1).data; 
 		} else {
-		 var p = ctx_mirror.getImageData(mouse.x, mouse.y, 1, 1).data; 
+		      var p = ctx_mirror.getImageData(mouse.x, mouse.y, 1, 1).data; 
 		}
-         var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
+                var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
 		 
 		 var cendRadius = Math.sqrt(Math.pow(mouse.x - xend, 2) + Math.pow(mouse.y-yend, 2));
 		 if (cendRadius < endRadius) {
@@ -154,7 +186,7 @@ function do_mirror() {
 			}
 
 			//check to see where we are drawing
-			if (p[0]+p[1]+p[2] == 0) {
+			if (p[0]+p[1]+p[2] < 200) {
 				if(inline) {
 					distance_inline = distance_inline + distance_current;
 				} else {
@@ -202,8 +234,10 @@ function do_mirror() {
 			} else {
 				ctx_mirror.lineTo(mouse.x, mouse.y);
 			}
-			ctx_mirror.stroke();				
-			document.getElementById("status").innerHTML = "Score = " + Math.round(score *100) +"%" + coord; 
+			ctx_mirror.stroke();		
+			document.getElementById("status").innerHTML = "Score = " + Math.round(score *100) +"% ";
+			//document.getElementByID("status").innerHTML = p[0]+p[1]+p[2];
+
 		} else {
 		    if(!finished) {
 			currentRefresh = new Date();
@@ -297,14 +331,25 @@ function do_mirror() {
 			}
 			ctx_mirror.stroke();
 	};
-	
+
+
+function betterPos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+      x: evt.clientX - rect.left,
+      y: evt.clientY - rect.top
+    };
+}
 	
 function findPos(obj) {
     var curleft = 0, curtop = 0;
+    //document.getElementById("status").innerHTML = "Find pos: ";
+    
     if (obj.offsetParent) {
         do {
             curleft += obj.offsetLeft;
             curtop += obj.offsetTop;
+            document.getElementById("status").innerHTML += obj.id + " Left: " + obj.offsetLeft + "Top: " + obj.offsetTop + " / ";
         } while (obj = obj.offsetParent);
         return { x: curleft, y: curtop };
     }
@@ -324,14 +369,16 @@ function saveCanvas() {
 
 	// This is a little trick to get the SRC attribute from the generated <img> screenshot
 	canvas_mirror.parentNode.appendChild(screenshot);
-	screenshot.id = "canvasimage";		
-	data = $('#canvasimage').attr('src');
+	screenshot.id = "canvasimage";	
+	data =  screenshot.src; 
 	canvas_mirror.parentNode.removeChild(screenshot);
 
   
 	// Send the screenshot to PHP to save it on the server
 	var url = saveScript;
-    $.ajax({ 
+	
+    jQuery.ajax({
+    
 	    type: "POST", 
 	    url: url,
 	    dataType: 'text',
