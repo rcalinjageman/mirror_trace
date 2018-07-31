@@ -18,3 +18,8 @@ The script can upload screen shots of the users work to a server.  This is turne
 
 I will be updating this github project as needed. If you want to complete a project and know that absoultely nothing
 will change without you knowing it, fork this project and then set your qualtrics surveys to point to the fork.
+
+If you publish results with this task, please cite:
+   Cusack M, Vezenkova N, Gottschalk C, Calin-Jageman RJ. 2015. Direct and Conceptual Replications of Burgmer & Englich (2012): Power May Have Little to No Effect on Motor Performance ed. J.M. Haddad. PLoS One 10: e0140806. PMID: 26536592. http://dx.plos.org/10.1371/journal.pone.0140806.
+
+And, as always, consider pre-registering your experiment and analysis plan, sharing your data and analysis script, being complete and transparent in how you report your results, and publishing in accessible repository no matter what the results.  
