@@ -1,6 +1,9 @@
 # mirror_trace
 This is a mirror trace task that can be used in Qualtrics surveys.
 
+You can try out the task here:
+   https://dom.az1.qualtrics.com/jfe/form/SV_1MsS71ODB4uA7n7 
+
 The easiest way to get started is to import two Qualtrics templates that are provided:
    https://github.com/rcalinjageman/mirror_trace/tree/master/qualtrics_templates
 
