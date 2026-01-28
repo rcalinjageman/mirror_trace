@@ -1,6 +1,8 @@
 # mirror_trace
 This is a mirror trace task that can be used in Qualtrics surveys.
 
+**Instructions and examples updated on 1/28/2028 to fix problem loading .js scripts into Qualtrics.  The updated loads these scripts through GitHub Pages, fixing the problem where the task was no longer loading**
+
 You can try out the task here:
    https://dom.az1.qualtrics.com/jfe/form/SV_1MsS71ODB4uA7n7
 
